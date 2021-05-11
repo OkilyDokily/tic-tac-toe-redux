@@ -7,33 +7,28 @@ import * as d from '../actions/index';
 class Game extends React.Component {
 
   handleClick(i) {
-    const { history, stepNumber, xIsNext, dispatch } = this.props;
-    const cHistory = history.slice(0, stepNumber + 1);
-    const current = cHistory[stepNumber];
-    const squares = current.squares.slice();
+    const { squares, xIsNext, dispatch } = this.props;
+  
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-    squares[i] = xIsNext ? 'X' : 'O';
-
-    dispatch(d.addSquares(squares));
-    dispatch(d.stepNumber(cHistory.length));
-    dispatch(d.newPlayer(xIsNext));
-
+    const newSquares = [...squares];
+    newSquares[i] = xIsNext ? 'X' : 'O';
+    dispatch(d.addSquares(newSquares));
+    dispatch(d.newPlayer(!xIsNext));
   }
   
   jumpTo(step) {
     const {dispatch} = this.props;
-    dispatch(d.stepNumber(step));
+    dispatch(d.changeStep(step));
     dispatch(d.newPlayer((step % 2) === 0));
   }
 
   render() {
-    const {history, xIsNext} = this.props;
-    const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const {squares, length, xIsNext} = this.props;
+    const winner = calculateWinner(squares);
 
-    const moves = history.map((step, move) => {
+    const moves = new Array(length-1).fill(1).map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
@@ -53,7 +48,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board onClick={(i) => this.handleClick(i)} squares={current.squares} />
+          <Board onClick={(i) => this.handleClick(i)} squares={squares} />
         </div>
         <div className="game-info">
           <div>{status}</div>
@@ -66,8 +61,8 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => (
  {
-    history: state.history,
-    stepNumber: state.stepNumber,
+    length:state.history.length,
+    squares: state.history[state.history.length - 1],
     xIsNext: state.xIsNext
   }
 );

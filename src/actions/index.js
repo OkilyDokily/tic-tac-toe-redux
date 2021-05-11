@@ -3,7 +3,7 @@ import * as c from './ActionTypes';
 
 export const addSquares = squares => ({
   type: c.ADD_SQUARES,
-  squares:squares
+  squares:[...squares]
 });
 
 export const stepNumber = (stepNumber) => ({
@@ -11,7 +11,17 @@ export const stepNumber = (stepNumber) => ({
   stepNumber:stepNumber
 });
 
-export const newPlayer = (xIsFirst) => ({
+export const newPlayer = (isXFirst) => {
+  return {
   type: c.NEW_PLAYER,
-  xIsFirst:xIsFirst
-});
+  xIsNext:isXFirst
+}};
+
+export const changeStep = (stepNumber) => {
+  return {
+    type: c.CHANGE_STEP,
+    stepNumber:stepNumber
+  }
+};
+
+

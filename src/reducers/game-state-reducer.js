@@ -1,11 +1,10 @@
 import * as c from '../actions/ActionTypes'
 
 const start = {
-  history: [{
-    squares: Array(9).fill(null),
-  }],
-  stepNumber: 0,
-  xIsNext: true,
+  history: [
+    Array(9).fill(null),
+  ],
+  xIsNext: true
 };
 
 
@@ -13,12 +12,13 @@ const reducer = (state = start,action) =>
 {
   switch(action.type){
     case c.ADD_SQUARES:
-      return {...start,history:[...start.history.concat(action.squares)]};
-    case c.STEP_NUMBER:
-      return {...start,stepNumber:action.stepNumber}
+      return { ...state, history: [...state.history].concat([action.squares])};
     case c.NEW_PLAYER:
-      return {...start,xIsNext:action.xIsNext}
+      return {...state,xIsNext:action.xIsNext}
+    case c.CHANGE_STEP:
+      return {...state,history:state.history.slice(0,action.stepNumber+1)}
     default:
+      return state;
   }
 }
 
