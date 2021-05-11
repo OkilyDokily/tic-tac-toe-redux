@@ -1,3 +1,43 @@
+# _Tic Tac Toe Redux_
+
+#### _This demonstrates beginner level React/Redux._
+
+#### By _**Matthew LeDoux**_
+
+
+## Description
+
+_A redux refactor of the react tic tac toe tutorial._
+
+     
+## Setup/Installation Requirements
+* clone the repo
+* navigate to the repo in your terminal 
+* enter `npm install` (this will install the necessary packages)
+* enter `npm start` this will start the program
+
+_See the getting started with react app section for more info_
+
+## Known Bugs
+
+_I don't think there are any bugs but please tell me if you see any._
+
+## Support and contact details
+
+_Open a Github issue if you see a problem or have questions_
+
+## Technologies Used
+
+_React, Redux, HTML, CSS, Javascript_
+
+
+### License
+
+*Feel free to use this code as you please*
+
+Copyright (c) 2020 **_Matthew LeDoux_**
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
