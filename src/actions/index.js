@@ -11,15 +11,15 @@ export const stepNumber = (stepNumber) => ({
   stepNumber:stepNumber
 });
 
-export const newPlayer = (isXFirst) => {
+export const switchPlayer = (isXFirst) => {
   return {
-  type: c.NEW_PLAYER,
+  type: c.SWITCH_PLAYER,
   xIsNext:isXFirst
 }};
 
-export const changeStep = (stepNumber) => {
+export const sliceHistory = (stepNumber) => {
   return {
-    type: c.CHANGE_STEP,
+    type: c.SLICE_HISTORY,
     stepNumber:stepNumber
   }
 };

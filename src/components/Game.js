@@ -7,31 +7,39 @@ import * as d from '../actions/index';
 class Game extends React.Component {
 
   handleClick(i) {
-    const { squares, xIsNext, dispatch } = this.props;
-  
+    const { squares, xIsNext, dispatch, stepNumber } = this.props;
+
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+   
+    if (stepNumber !== null) {
+      dispatch(d.sliceHistory(stepNumber))
+      dispatch(d.stepNumber(null));
+    }
+
     const newSquares = [...squares];
     newSquares[i] = xIsNext ? 'X' : 'O';
+
     dispatch(d.addSquares(newSquares));
-    dispatch(d.newPlayer(!xIsNext));
+    dispatch(d.switchPlayer(!xIsNext));
+
+
   }
-  
+
   jumpTo(step) {
-    const {dispatch} = this.props;
-    dispatch(d.changeStep(step));
-    dispatch(d.newPlayer((step % 2) === 0));
+    const { dispatch } = this.props;
+    dispatch(d.stepNumber(step));
+    dispatch(d.switchPlayer((step % 2) === 0));
   }
 
   render() {
-    const {squares, length, xIsNext} = this.props;
+    const { squares, length, xIsNext } = this.props;
     const winner = calculateWinner(squares);
 
-    const moves = new Array(length-1).fill(1).map((step, move) => {
-      const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
+    const moves = new Array(length).fill(1).map((step, move) => {
+      const desc = !move ? 'Go to game start' : !((move + 1) === length) ? 'Go to move #' + move : "Go to final move";
+        
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -59,13 +67,14 @@ class Game extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => (
- {
-    length:state.history.length,
-    squares: state.history[state.history.length - 1],
-    xIsNext: state.xIsNext
-  }
-);
+const mapStateToProps = (state) => {
+  return {
+    length: state.history.length,
+    squares: (state.stepNumber === null) ? state.history[state.history.length - 1] : state.history[state.stepNumber],
+    xIsNext: state.xIsNext,
+    stepNumber: state.stepNumber
+  };
+};
 
 Game.propTypes = {
   history: PropTypes.array,
